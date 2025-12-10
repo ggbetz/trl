@@ -143,7 +143,10 @@ def main(script_args, training_args, model_args, dataset_args):
     )
 
     # Train the model
-    trainer.train()
+    checkpoint = None
+    if training_args.resume_from_checkpoint is not None:
+        checkpoint = training_args.resume_from_checkpoint
+    trainer.train(resume_from_checkpoint=checkpoint)
 
     # Log training complete
     trainer.accelerator.print("✅ Training completed.")
